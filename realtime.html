@@ -75,7 +75,7 @@
       flex: 1;
       display: flex;
       flex-direction: column;
-      justify-content: flex-end; /* posisikan ke bawah */
+      justify-content: flex-end; 
     }
 
     .rows {
@@ -123,7 +123,7 @@
       flex-direction: column; 
     }
 
-/* The switch - the box around the slider */
+
 .switch {
   font-size: 17px;
   position: relative;
@@ -132,14 +132,14 @@
   height: 2em;
 }
 
-/* Hide default HTML checkbox */
+
 .switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-/* The slider */
+
 .slider {
   position: absolute;
   cursor: pointer;
@@ -195,7 +195,7 @@
 }
 
 
-/* From Uiverse.io by KSAplay */ 
+
 .card {
   display: flex;
   flex-direction: column;
@@ -209,7 +209,7 @@
   background-color: white;
 }
 
-/* Landscape section */
+
 .landscape-section {
   position: relative;
   width: 100%;
@@ -417,7 +417,7 @@
   z-index: 5;
   opacity: 0.2;
 }
-/*batas*/
+
 
 
   .ultrasonic-box {
@@ -443,7 +443,7 @@
   }
 
 
-/* Content section */
+
 .env-card-upgraded {
   width: 280px;
   margin: 10px;
@@ -550,7 +550,7 @@
                 <div class="env-icon">🌡️</div>
                 <div class="env-label">Suhu</div>
                 <div class="env-value" id="tempID">--°C</div>
-                <div class="env-status" id="tempStatus">--</div>
+                <div class="env-status" id="tempStatus"></div>
               </div>
           
               <hr>
@@ -581,16 +581,15 @@
   
     // Konfigurasi Firebase
     const firebaseConfig = {
-      apiKey: "AIzaSyBfvs5rKyZ-6k9sGmuGoJYlnw4BKkLPD-U",
-      authDomain: "fir-arduinoled-4914b.firebaseapp.com",
-      databaseURL: "https://fir-arduinoled-10b7a-default-rtdb.asia-southeast1.firebasedatabase.app/",
-      projectId: "fir-arduinoled-4914b",
-      storageBucket: "fir-arduinoled-4914b.firebasestorage.app",
-      messagingSenderId: "716075952357",
-      appId: "1:716075952357:web:3be9d25ad39bd62d164c0c",
-      measurementId: "G-21RW9SRKJ6"
-    };
-  
+    apiKey: "AIzaSyA2GHrnJuUTWU40JygE0NSVFZ_oaBW9ZbU",
+    authDomain: "ukk-020101160695.firebaseapp.com",
+    databaseURL: "https://ukk-020101160695-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "ukk-020101160695",
+    storageBucket: "ukk-020101160695.firebasestorage.app",
+    messagingSenderId: "383763262987",
+    appId: "1:383763262987:web:df75d6fcd019398018e10e",
+    measurementId: "G-RMWQ66FFV6"
+  };
     // Inisialisasi Firebase
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
