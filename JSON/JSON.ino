@@ -6,9 +6,9 @@
 
 Firebase fb(REFERENCE_URL);
 
-#define ledPin1     D2    // Pin LED 1
-#define ledPin2     D3    // Pin LED 2
-#define ledPin3     D4    // Pin LED 3
+#define ledPin1     D1    // Pin LED 1
+#define ledPin2     D2    // Pin LED 2
+#define ledPin3     D3    // Pin LED 3
 #define DHTPIN      D5    // Pin Data Sensor DHT11
 #define DHTTYPE DHT11     // Tipe sensor DHT11
 #define echoPin     D6    // Pin Echo Sensor Ultrasonik
