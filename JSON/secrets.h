@@ -4,7 +4,7 @@
 
 */
 
-#define WIFI_SSID     "mc"
+#define WIFI_SSID     "c"
 #define WIFI_PASSWORD "11111111"
 
 /*
@@ -46,7 +46,7 @@
 */
 
 /* Test Mode (No Authentication) */
-#define REFERENCE_URL "https://fir-arduinoled-10b7a-default-rtdb.asia-southeast1.firebasedatabase.app/"
+#define REFERENCE_URL "https://ukk-020101160695-default-rtdb.asia-southeast1.firebasedatabase.app/"
 
 /* Uncomment the following line for Locked Mode (With Authentication) */
 // #define AUTH_TOKEN "YOUR-AUTHENTICATION-CODE"
