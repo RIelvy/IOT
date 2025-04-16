@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Monitoring Sistem</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f2f2f2;
+    }
+
+    header {
+      background-color: #333;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .led-control {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0.5rem 0;
+    }
+
+    .status {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #444;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>Monitoring Sistem Firebase</header>
+
+  <div class="container">
+    <!-- Kartu Sensor -->
+    <div class="card">
+      <h2>Sensor Suhu & Kelembaban</h2>
+      <p>Suhu: <span id="tempID">--</span></p>
+      <p>Status Suhu: <span id="tempStatus">--</span></p>
+      <p>Kelembaban: <span id="humidID">--</span></p>
+      <p>Status Kelembaban: <span id="humidStatus">--</span></p>
+    </div>
+
+    <div class="card">
+      <h2>Sensor Ultrasonik</h2>
+      <p>Jarak: <span id="nilaisuhu">--</span></p>
+    </div>
+
+    <!-- Kartu Kontrol LED -->
+    <div class="card">
+      <h2>Kontrol LED</h2>
+      <div class="led-control">
+        <label for="checkbox-1">LED 1</label>
+        <input type="checkbox" id="checkbox-1" onchange="toggleLED(1)">
+      </div>
+      <div class="led-control">
+        <label for="checkbox-2">LED 2</label>
+        <input type="checkbox" id="checkbox-2" onchange="toggleLED(2)">
+      </div>
+      <div class="led-control">
+        <label for="checkbox-3">LED 3</label>
+        <input type="checkbox" id="checkbox-3" onchange="toggleLED(3)">
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase -->
+  <script type="module">
+    // Import Firebase SDK
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import {
+      getDatabase,
+      ref,
+      onValue,
+      set
+    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+
+    // Konfigurasi Firebase
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "SENDER_ID",
+      appId: "APP_ID"
+    };
+
+    // Inisialisasi Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // Referensi ke Firebase Realtime Database
+    const dhtRef = ref(db, "dataDHT");
+    const usRef = ref(db, "dataUltrasonik");
+    const ledRef = ref(db, "dataLED");
+
+    // Listener untuk Sensor Suhu & Kelembaban
+    onValue(dhtRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        document.getElementById("tempID").textContent = `${data.suhu} °C`;
+        document.getElementById("humidID").textContent = `${data.kelembaban} %`;
+
+        document.getElementById("tempStatus").textContent =
+          data.suhu > 30 ? "Panas" : data.suhu < 20 ? "Dingin" : "Sedang";
+
+        document.getElementById("humidStatus").textContent =
+          data.kelembaban > 60 ? "Lembap" : data.kelembaban < 30 ? "Kering" : "Normal";
+      }
+    });
+
+    // Listener untuk Sensor Ultrasonik
+    onValue(usRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const jarak = snapshot.val().jarak;
+        document.getElementById("nilaisuhu").textContent = `${jarak} cm`;
+      }
+    });
+
+    // Listener untuk status LED
+    onValue(ledRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const led = snapshot.val();
+        for (let i = 1; i <= 3; i++) {
+          const ledKey = `led${i}`;
+          const checkbox = document.getElementById(`checkbox-${i}`);
+          if (checkbox) {
+            checkbox.checked = led[ledKey] === 1;
+          }
+        }
+      }
+    });
+
+    // Fungsi untuk toggle LED
+    window.toggleLED = function (id) {
+      const checkbox = document.getElementById(`checkbox-${id}`);
+      const status = checkbox.checked ? 1 : 0;
+      set(ref(db, `dataLED/led${id}`), status);
+    };
+  </script>
+</body>
+</html>
